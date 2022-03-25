@@ -1,0 +1,276 @@
+<!-- 
+Faculdade de Tecnologia de Lins - Prof Antonio Seabra 
+Programação de Dispositivos Móveis
+Curso: Análise e Desenvolvimento de Sistemas
+Prof. Felipe Maciel - felipe.maciel@fateclins.edu.br
+********************************************************************************************
+
+Sem alterar a estrutura HTML, implemente o necessário para que exercício funcione corretamente.
+
+OBJETIVO
+Sua função é implementar um cadastro de usuário o qual é divido em 3 partes. Cada etapta elementos STEP1, STEP2 e STEP3 devem ser exibidos individualmente, sendo que cada etapa possui as suas próprias regras de negócios listadas a seguir.
+
+PARTE 1 
+Fucionamento: 
+1) Ao usuário sair do campo [NOME COMPLETO], deve verificar-se se o campo esta vazio. Caso sim, deve-se aplicar a classe erro ao campo de texto e deixar o botão [AVANÇAR] desabilitado. Caso o campo não estiver vazio, deve-se habiltar o  botão [AVANÇAR] para o usuário seguir com o cadastro.
+
+2) Ao clicar no botão [AVANÇAR], deve-se desaparecer a etapa 1 do cadastro e exibir a etapa 2.
+
+
+DICA MAROTA:
+1) Para desabilitar um botão, basta incluir o atributo disabled com valor disabled ou true. Já para habilita-lo, basta remover o atributo disabled com o método removeAttr(), ou setar o valor disabled como false.
+
+
+PARTE 2
+Funcionamento:
+3) Ao usuário clicar no botão [MOSTRAR SENHA] os campos devem mostrar a senha digitada pelo mesmo em ambos campos, ou seja, os caracteres representados por ••••• mostrarão exatamente o que foi digitado. Uma vez que as senhas estão sendo mostradas, o botão agora deve apresentar o texto [ESCONDER SENHA] em vez de [MOSTRAR SENHA], e assim, quando o usuário clicá-lo, as senhas digitadas voltam a ser caracteres não legíveis, ou seja, •••••.
+
+4) Ao sair do campo CONFIRMAÇÃO DE SENHA, deve-se verificar se as senhas digitadas em ambos campos são iguais. Caso sejam iguais, deve-se habilitar o botão [AVANÇAR] caso contrário, o botão deve continuar desabilitado e você deve adicionar a classe RED elemento de id MENSAGEM apresentando a mensagem AS SENHAS NÃO COINCIDEM.
+
+DICA MAROTA:
+3) A exibição ou ocultação da senha é realizada pela propriedade type do campo de texto, sendo text para exibir a senha digirada e password para oculta-la.
+
+
+PARTE 3
+Funcionamento:
+
+5) Ao usuário selecionar a opção FINALIZADA, deve-se aparecer o BOXANO o qual possui um select contendo os anos. Caso o usuário selecione qualquer outra opção no select, o BOXANO deve ser ocultado da página.
+
+6) Ao clicar no botão [FIM], deve-se aparecer sumir com a interface step3 e aparecer a interface step4 contendo o valor escolhido no select, (por exemplo, EM ANDAMENTO) e caso o select selecionado seja FINALIZADA, deve-se também apresentar o valor selecionado no select ANO, por exemplo, FINALIZADA em 2020.
+
+-->
+<!DOCTYPE html>
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+
+<head>
+    <link type="text/css" rel="stylesheet" href="libs/materialize.css" media="screen,projection" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        .erro {
+            border-bottom: 1px solid #F00 !important;
+        }
+        .botao{
+            width: 132px;
+            height: 40px;
+            background-color: #b4a622;
+        }
+        .salvar{
+            width: 132px;
+            height: 40px;
+            background-color: #5eb761;
+        }
+    </style>
+
+
+    <!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Editor msdt:dt="string">FELIPE MACIEL RODRIGUES</mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Editor>
+<mso:Order msdt:dt="string">26336300.0000000</mso:Order>
+<mso:ComplianceAssetId msdt:dt="string"></mso:ComplianceAssetId>
+<mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Author msdt:dt="string">FELIPE MACIEL RODRIGUES</mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Author>
+<mso:ContentTypeId msdt:dt="string">0x01010022E12CEBB331964A8B2E1EDBFAD3DF61</mso:ContentTypeId>
+<mso:_SourceUrl msdt:dt="string"></mso:_SourceUrl>
+<mso:_SharedFileIndex msdt:dt="string"></mso:_SharedFileIndex>
+<mso:xd_Signature msdt:dt="string"></mso:xd_Signature>
+<mso:ReferenceId msdt:dt="string"></mso:ReferenceId>
+<mso:TemplateUrl msdt:dt="string"></mso:TemplateUrl>
+<mso:xd_ProgID msdt:dt="string"></mso:xd_ProgID>
+<mso:_ExtendedDescription msdt:dt="string"></mso:_ExtendedDescription>
+<mso:TriggerFlowInfo msdt:dt="string"></mso:TriggerFlowInfo>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+    <title></title>
+</head>
+
+<body>
+    <br>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col s8 offset-s2">
+            <div class="card">
+
+                <div class="card-content" data-step="1" id="step1">
+                    <input id="nome" type="text" placeholder="Nome Completo">
+
+                    <div class="row">
+                        <div class="col s12 right-align"><button class="btn btnNext" id="btnNext1"
+                                disabled>Avançar</button></div>
+                    </div>
+                </div>
+
+                <div class="card-content" data-step="2" id="step2">
+                    <input id="senha" class="inpPasswd" type="password" placeholder="Senha">
+                    <input id="confirmacaoSenha" class="inpPasswd" type="password" placeholder="Confirmação de Senha">
+                    <div id="mensagem"></div>
+
+                    <div class="row">
+                        <div class="col s6"><button class="btn" id="btnShowHide">Mostrar Senha</button></div>
+
+                        <div class="col s6 right-align"><button class="btn btnNext" id="btnNext2"
+                                disabled>Avançar</button></div>
+                    </div>
+                </div>
+
+
+                <div class="card-content" data-step="3" id="step3">
+                    <div class="input-field col s12">
+                        <select id="status">
+                            <option value="" disabled selected>Sobre a sua graduação</option>
+                            <option value="1">Em andamento</option>
+                            <option value="2">Finalizada</option>
+                            <option value="3">NA</option>
+                        </select>
+                    </div>
+
+                    <div class="input-field col s12" id="boxAno">
+                        <select id="ano">
+                            <option value="" disabled selected>Selecione o ano</option>
+                            <option value="1">2018</option>
+                            <option value="2">2019</option>
+                            <option value="3">2020</option>
+                            <option value="4">2021</option>
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 right-align"><button class="btn btnNext" id="btnNext3">Fim</button></div>
+                    </div>
+                </div>
+
+
+                <div class="card-content" data-step="4" id="step4">
+
+                </div>
+
+                <div class="card-content" id="step5">
+                    <button class="botao" id="Voltar">Alterar Estado</button >
+                    <button class="salvar" id="salvar">Salvar</button >
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('select').formSelect();
+
+            $('#step4').hide();
+            $('#step2').hide();
+            $('#step3').hide();
+            $('#step5').hide();
+
+
+            $('#nome').blur(function () {
+                let valor = $('#nome').val();
+                if (valor == '') {
+                    alert('Você não digitou seu nome');
+                    $("#btnNext1").attr('disabled', 'disabled');
+
+                } else if (valor != '') {
+                    $("#btnNext1").removeAttr('disabled');
+                }
+
+                $("#btnNext1").click(function () {
+                    $('#step1').hide();
+                    $('#nome').hide();
+                    $('#step2').show();
+
+                });
+
+                $('#btnShowHide').click(function () {
+                    if ($('.inpPasswd').attr('type') == 'password') {
+                        $('.inpPasswd').attr('type', 'text');
+                        let button = $('#btnShowHide').text('Ocultar Senha');
+                    }
+                    else {
+                        $('.inpPasswd').attr('type', 'password');
+
+                        let button = $('#btnShowHide').text('Mostrar Senha');
+                    }
+
+                });
+
+                $('#confirmacaoSenha').blur(function () {
+                    let senha = $('#senha').val();
+                    let confirma = $('#confirmacaoSenha').val();
+
+
+                    if (senha == confirma) {
+                        $("#btnNext2").removeAttr('disabled');
+                        $('#mensagem').hide();
+                    } else {
+                        $("#btnNext2").attr('disabled', 'disabled');
+                        $("#mensagem").html('<b class = "erro"> As senhas Não Coicidem </b>');
+                        $('#mensagem').show();
+                    }
+
+                });
+                $("#btnNext2").click(function () {
+                    $('#step2').hide();
+                    $('inpPasswd').hide();
+                    $('#step3').show();
+                    $('#boxAno').hide();
+                });
+
+                $('#status').change(function () {
+                    Finalizada = $('#status').val();
+
+                    if (Finalizada == 2) {
+                        $('#boxAno').show();
+
+                    } else
+                        $('#boxAno').hide();
+
+                });
+
+                $('#btnNext3').click(function () {
+                    $('#step3').hide();
+                    $('#step4').show();
+                    $('#step5').show();
+                    Finalizada = $('#status').val();
+                    let valor = $('#nome').val();
+                    if (Finalizada == 2) {
+                        texto = $('#status :selected').text();
+                        ano = $('#ano :selected').text();
+                        $('#step4').html('o nome do cadastro é  ' +valor +' com estado '+texto +' em '+ ano);
+                    } else {
+                        texto = $('#status :selected').text();
+                       // ano = $('#ano :selected').text();
+                        $('#step4').html('o nome do cadastrado é  '+ valor +'  com estado   ' + texto);
+                        
+                    }
+
+                });
+
+                $('.botao').click(function(){
+                    $('#step4').hide();
+                    $('#step5').hide();
+                    $('#step3').show();
+                });
+                $('.salvar').click(function(){
+                    alert('Cadastro Salvo!')
+                    window.close();
+                });
+
+
+
+
+
+            });
+
+        });
+    </script>
+</body>
+
+</html>
